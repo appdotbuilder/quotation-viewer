@@ -41,27 +41,169 @@ export function SensitiveQuotationModal({
         // STUB: This should be replaced when real backend handlers are implemented
         if (!data) {
           // Demo sensitive data - this would normally come from the backend
-          const sampleSensitiveData: SensitiveQuotation = {
-            id: quotationId,
-            buy_price: 45000 + (quotationId * 5000), // Varying prices based on ID
-            sale_price: 67500 + (quotationId * 7500),
-            margin: 22500 + (quotationId * 2500),
-            profit: 22500 + (quotationId * 2500),
-            cost_basis: 42000 + (quotationId * 4800),
-            markup_percentage: 50 + (quotationId * 5),
-            internal_notes: quotationId === 1 
-              ? "High-priority client. Requires expedited processing and executive approval. Consider volume discount for future contracts."
-              : quotationId === 2
-              ? "Technical requirements verified. Client has existing infrastructure that may require additional integration costs."
-              : quotationId === 3
-              ? "Draft quotation pending cost analysis from engineering team. Await specifications from client before finalizing."
-              : quotationId === 4
-              ? "Client rejected initial proposal due to budget constraints. Alternative solution proposed at lower price point."
-              : "Expired due to client non-response. Maintain relationship for future opportunities.",
-            risk_level: quotationId <= 2 ? 'low' : quotationId <= 4 ? 'medium' : 'high',
-            confidentiality_level: quotationId === 1 ? 'top_secret' : quotationId <= 3 ? 'confidential' : 'restricted'
+          const getSampleSensitiveData = (id: number): SensitiveQuotation => {
+            const sensitiveDataMap: Record<number, SensitiveQuotation> = {
+              1: {
+                id: 1,
+                buy_price: 125000.00,
+                sale_price: 187500.00,
+                margin: 62500.00,
+                profit: 60000.00,
+                cost_basis: 120000.00,
+                markup_percentage: 56.25,
+                internal_notes: "High-priority client with enterprise-level requirements. Board approval required for contracts over $150K. Volume discount negotiated for multi-year commitment. Executive sponsor: CEO directly involved.",
+                risk_level: 'low',
+                confidentiality_level: 'top_secret'
+              },
+              2: {
+                id: 2,
+                buy_price: 89500.00,
+                sale_price: 134250.00,
+                margin: 44750.00,
+                profit: 42000.00,
+                cost_basis: 85000.00,
+                markup_percentage: 58.07,
+                internal_notes: "Technical requirements verified with client's existing AWS infrastructure. Additional migration costs may apply. Client has budget approval secured through Q2.",
+                risk_level: 'low',
+                confidentiality_level: 'confidential'
+              },
+              3: {
+                id: 3,
+                buy_price: 78000.00,
+                sale_price: 117000.00,
+                margin: 39000.00,
+                profit: 36500.00,
+                cost_basis: 76500.00,
+                markup_percentage: 52.94,
+                internal_notes: "Draft pending final IoT sensor specifications from engineering team. Manufacturing client requires 24/7 uptime SLA. Consider extended warranty options.",
+                risk_level: 'medium',
+                confidentiality_level: 'confidential'
+              },
+              4: {
+                id: 4,
+                buy_price: 156000.00,
+                sale_price: 234000.00,
+                margin: 78000.00,
+                profit: 72000.00,
+                cost_basis: 150000.00,
+                markup_percentage: 56.00,
+                internal_notes: "Client rejected initial proposal citing budget constraints. Alternative phased implementation approach proposed at 30% reduced cost. Compliance audit required.",
+                risk_level: 'medium',
+                confidentiality_level: 'restricted'
+              },
+              5: {
+                id: 5,
+                buy_price: 94750.00,
+                sale_price: 142125.00,
+                margin: 47375.00,
+                profit: 44500.00,
+                cost_basis: 92000.00,
+                markup_percentage: 54.48,
+                internal_notes: "HIPAA compliance critical - no room for errors. Legal review completed. Client relationship expired due to procurement delays on their end.",
+                risk_level: 'high',
+                confidentiality_level: 'restricted'
+              },
+              6: {
+                id: 6,
+                buy_price: 245000.00,
+                sale_price: 367500.00,
+                margin: 122500.00,
+                profit: 115000.00,
+                cost_basis: 238000.00,
+                markup_percentage: 54.40,
+                internal_notes: "Large-scale retail implementation across 150 locations. Hardware procurement lead time 8-10 weeks. Training program for 300+ staff members included in scope.",
+                risk_level: 'medium',
+                confidentiality_level: 'confidential'
+              },
+              7: {
+                id: 7,
+                buy_price: 189000.00,
+                sale_price: 283500.00,
+                margin: 94500.00,
+                profit: 88750.00,
+                cost_basis: 182500.00,
+                markup_percentage: 55.34,
+                internal_notes: "Energy sector client with critical infrastructure requirements. Security clearance may be required for development team. Approved for implementation.",
+                risk_level: 'low',
+                confidentiality_level: 'top_secret'
+              },
+              8: {
+                id: 8,
+                buy_price: 67500.00,
+                sale_price: 101250.00,
+                margin: 33750.00,
+                profit: 32000.00,
+                cost_basis: 65500.00,
+                markup_percentage: 54.58,
+                internal_notes: "Educational sector pricing with non-profit discount applied. Summer deployment window critical due to academic calendar. Teacher training workshops scheduled.",
+                risk_level: 'low',
+                confidentiality_level: 'restricted'
+              },
+              9: {
+                id: 9,
+                buy_price: 134000.00,
+                sale_price: 201000.00,
+                margin: 67000.00,
+                profit: 62500.00,
+                cost_basis: 129000.00,
+                markup_percentage: 55.81,
+                internal_notes: "Fleet tracking solution for 200+ vehicles. Client concerns about driver privacy regulations. Rejected due to competitors offering integrated telematics at lower cost.",
+                risk_level: 'high',
+                confidentiality_level: 'restricted'
+              },
+              10: {
+                id: 10,
+                buy_price: 198500.00,
+                sale_price: 297750.00,
+                margin: 99250.00,
+                profit: 93000.00,
+                cost_basis: 192000.00,
+                markup_percentage: 55.21,
+                internal_notes: "FDA validation requirements add complexity. Clinical trials data integration critical for regulatory compliance. Approved with accelerated timeline for Q2 go-live.",
+                risk_level: 'low',
+                confidentiality_level: 'top_secret'
+              },
+              11: {
+                id: 11,
+                buy_price: 175000.00,
+                sale_price: 262500.00,
+                margin: 87500.00,
+                profit: 82000.00,
+                cost_basis: 170000.00,
+                markup_percentage: 54.41,
+                internal_notes: "Construction project management for $2B+ infrastructure projects. Integration with existing SAP systems required. Expired due to client budget freeze.",
+                risk_level: 'high',
+                confidentiality_level: 'confidential'
+              },
+              12: {
+                id: 12,
+                buy_price: 112000.00,
+                sale_price: 168000.00,
+                margin: 56000.00,
+                profit: 52500.00,
+                cost_basis: 108000.00,
+                markup_percentage: 55.56,
+                internal_notes: "Multi-property hotel chain implementation. PCI compliance for payment processing mandatory. Revenue management algorithms proprietary - additional IP licensing fees may apply.",
+                risk_level: 'medium',
+                confidentiality_level: 'confidential'
+              }
+            };
+            
+            return sensitiveDataMap[id] || {
+              id: id,
+              buy_price: 50000 + (id * 7500),
+              sale_price: 75000 + (id * 11250),
+              margin: 25000 + (id * 3750),
+              profit: 23500 + (id * 3500),
+              cost_basis: 48000 + (id * 7200),
+              markup_percentage: 50 + (id * 2),
+              internal_notes: `Quotation ${id} - Standard commercial engagement with baseline requirements. Further analysis pending client specifications.`,
+              risk_level: id % 3 === 0 ? 'high' : id % 2 === 0 ? 'medium' : 'low',
+              confidentiality_level: id % 4 === 1 ? 'top_secret' : id % 3 === 0 ? 'confidential' : 'restricted'
+            };
           };
-          setSensitiveData(sampleSensitiveData);
+          
+          setSensitiveData(getSampleSensitiveData(quotationId));
         } else {
           setSensitiveData(data);
         }
