@@ -1,9 +1,20 @@
+import { db } from '../db';
+import { quotationsTable } from '../db/schema';
+import { eq } from 'drizzle-orm';
 import { type QuotationIdInput } from '../schema';
 
 export async function deleteQuotation(input: QuotationIdInput): Promise<boolean> {
-    // This is a placeholder declaration! Real code should be implemented here.
-    // The goal of this handler is securely deleting a quotation from the database
-    // by its ID. Should return true if deletion was successful, false otherwise.
-    // Should handle cases where the quotation doesn't exist gracefully.
-    return Promise.resolve(false);
+  try {
+    // Delete quotation by ID
+    const result = await db.delete(quotationsTable)
+      .where(eq(quotationsTable.id, input.id))
+      .returning({ id: quotationsTable.id })
+      .execute();
+
+    // Return true if any row was deleted, false if no quotation was found
+    return result.length > 0;
+  } catch (error) {
+    console.error('Quotation deletion failed:', error);
+    throw error;
+  }
 }
